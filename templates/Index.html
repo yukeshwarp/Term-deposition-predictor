@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Marketing Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        h2, h3 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: inline-block;
+            width: 150px;
+            margin-bottom: 5px;
+        }
+        input[type="number"], select {
+            width: 150px;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .result, .error {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+        .error {
+            color: red;
+            border-color: red;
+        }
+    </style>
+</head>
+<body>
+    <h2>Bank Marketing Prediction</h2>
+    <form method="POST" action="/predict">
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required><br>
+
+        <label for="job">Job:</label>
+        <select id="job" name="job" required>
+            <option value="admin.">Admin</option>
+            <option value="blue-collar">Blue-collar</option>
+            <option value="entrepreneur">Entrepreneur</option>
+            <option value="retired">Retired</option>
+            <option value="self-employed">Self-employed</option>
+            <option value="services">Services</option>
+            <option value="student">Student</option>
+            <option value="technician">Technician</option>
+            <option value="unemployed">Unemployed</option>
+        </select><br>
+
+        <label for="marital">Marital Status:</label>
+        <select id="marital" name="marital" required>
+            <option value="married">Married</option>
+            <option value="single">Single</option>
+            <option value="divorced">Divorced</option>
+        </select><br>
+
+        <label for="education">Education:</label>
+        <select id="education" name="education" required>
+            <option value="basic.4y">Basic 4 years</option>
+            <option value="basic.6y">Basic 6 years</option>
+            <option value="basic.9y">Basic 9 years</option>
+            <option value="high.school">High School</option>
+            <option value="professional.course">Professional Course</option>
+            <option value="university.degree">University Degree</option>
+            <option value="illiterate">Illiterate</option>
+        </select><br>
+
+        <label for="default">Default:</label>
+        <select id="default" name="default" required>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select><br>
+
+        <label for="housing">Housing Loan:</label>
+        <select id="housing" name="housing" required>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select><br>
+
+        <label for="loan">Personal Loan:</label>
+        <select id="loan" name="loan" required>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select><br>
+
+        <label for="contact">Contact Type:</label>
+        <select id="contact" name="contact" required>
+            <option value="cellular">Cellular</option>
+            <option value="telephone">Telephone</option>
+        </select><br>
+
+        <label for="month">Last Contact Month:</label>
+        <select id="month" name="month" required>
+            <option value="jan">January</option>
+            <option value="feb">February</option>
+            <option value="mar">March</option>
+            <option value="apr">April</option>
+            <option value="may">May</option>
+            <option value="jun">June</option>
+            <option value="jul">July</option>
+            <option value="aug">August</option>
+            <option value="sep">September</option>
+            <option value="oct">October</option>
+            <option value="nov">November</option>
+            <option value="dec">December</option>
+        </select><br>
+
+        <label for="duration">Duration (seconds):</label>
+        <input type="number" id="duration" name="duration" required><br>
+
+        <label for="campaign">Campaign Contacts:</label>
+        <input type="number" id="campaign" name="campaign" required><br>
+
+        <label for="pdays">Days Since Last Campaign:</label>
+        <input type="number" id="pdays" name="pdays" required><br>
+
+        <label for="previous">Previous Campaign Contacts:</label>
+        <input type="number" id="previous" name="previous" required><br>
+
+        <label for="poutcome">Previous Outcome:</label>
+        <select id="poutcome" name="poutcome" required>
+            <option value="failure">Failure</option>
+            <option value="nonexistent">Nonexistent</option>
+            <option value="success">Success</option>
+        </select><br>
+
+        <label for="emp_var_rate">Employment Variation Rate:</label>
+        <input type="number" step="0.1" id="emp_var_rate" name="emp_var_rate" required><br>
+
+        <label for="cons_price_idx">Consumer Price Index:</label>
+        <input type="number" step="0.001" id="cons_price_idx" name="cons_price_idx" required><br>
+
+        <label for="cons_conf_idx">Consumer Confidence Index:</label>
+        <input type="number" step="0.1" id="cons_conf_idx" name="cons_conf_idx" required><br>
+
+        <label for="euribor3m">Euribor 3 Month Rate:</label>
+        <input type="number" step="0.001" id="euribor3m" name="euribor3m" required><br>
+
+        <label for="nr_employed">Number of Employees:</label>
+        <input type="number" step="0.1" id="nr_employed" name="nr_employed" required><br>
+
+        <input type="submit" value="Predict">
+    </form>
+
+    {% if prediction %}
+    <div class="result">
+        <h3>Prediction Result:</h3>
+        <p>{{ prediction }}</p>
+    </div>
+    {% endif %}
+
+    {% if error_message %}
+    <div class="error">
+        <h3>Error:</h3>
+        <p>{{ error_message }}</p>
+    </div>
+    {% endif %}
+</body>
+</html>
